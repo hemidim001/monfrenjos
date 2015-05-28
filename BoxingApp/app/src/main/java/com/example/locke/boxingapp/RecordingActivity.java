@@ -42,6 +42,10 @@ public class RecordingActivity extends Activity implements SensorEventListener {
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
+        x = (TextView) findViewById(R.id.textView);
+        y = (TextView) findViewById(R.id.textView2);
+        z = (TextView) findViewById(R.id.textView3);
+
         text1=(TextView)findViewById(R.id.textView1);
 
 
@@ -62,13 +66,8 @@ public class RecordingActivity extends Activity implements SensorEventListener {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
                                 TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
 
+                updateText();
 
-                senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-                senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                senSensorManager.registerListener(RecordingActivity.this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-                x = (TextView) findViewById(R.id.textView1);
-                y = (TextView) findViewById(R.id.textView2);
-                z = (TextView) findViewById(R.id.textView3);
             }
 
             public void onFinish() {
@@ -90,9 +89,14 @@ public class RecordingActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        Sensor mySensor = event.sensor;
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        Sensor mySensor = sensorEvent.sensor;
 
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            x1 = sensorEvent.values[0];
+            y1 = sensorEvent.values[1];
+            z1 = sensorEvent.values[2];
+        }
     }
 
     @Override
@@ -104,4 +108,12 @@ public class RecordingActivity extends Activity implements SensorEventListener {
         super.onResume();
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
+    public void updateText() {
+        x.setText("X:" + x1);
+        y.setText("Y:" + y1);
+        z.setText("Z:" + z1);
+    }
+
+
 }
