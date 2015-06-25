@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
@@ -23,9 +24,13 @@ import com.example.locke.boxingapp.R;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 
 public class RecordingActivity extends Activity implements SensorEventListener {
@@ -93,6 +98,36 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
                     score = (float) ((Math.abs(x1) + Math.abs(y1))*-1 + Math.abs(z1) + 0.19);
                     textScore.setText("Your score: " + score);
+                    connectWeb("145.109.215.185/Tickets.php");
+                    Log.d("CHECK","CHECK");
+                    Thread thread = new Thread(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                InputStream is = null;
+                                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                                nameValuePairs.add(new BasicNameValuePair("getAllTickets", "3"));
+
+                                try {
+                                    HttpClient httpclient = new DefaultHttpClient();
+                                    HttpPost httppost = new HttpPost("http://145.109.215.185/Tickets.php");
+                                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                                    HttpResponse response = httpclient.execute(httppost);
+                                    HttpEntity entity = response.getEntity();
+                                    is = entity.getContent();
+                                    Log.d("HTTP", "HTTP: OK: " + response.toString());
+                                    convertStreamToString(is);
+
+                                } catch (Exception e) {
+                                    Log.e("HTTP", "Error in http connection " + e.toString());
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    thread.start();
 
                 }
             }
@@ -143,7 +178,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
     }
 
-    public static void connect(String url)
+    public  void connectWeb (String url)
     {
 
         HttpClient httpclient = new DefaultHttpClient();
@@ -162,21 +197,25 @@ public class RecordingActivity extends Activity implements SensorEventListener {
             HttpEntity entity = response.getEntity();
             // If the response does not enclose an entity, there is no need
             // to worry about connection release
-
+            Log.d("DONE",entity.toString());
             if (entity != null) {
 
                 // A Simple JSON Response Read
                 InputStream instream = entity.getContent();
                 String result= convertStreamToString(instream);
                 // now you have the string representation of the HTML request
+                Log.d("RESULT", result);
                 instream.close();
             }
 
 
-        } catch (Exception e) {}
+        }
+
+        catch (Exception e) {}
+
     }
 
-    private static String convertStreamToString(InputStream is) {
+    private  String convertStreamToString(InputStream is) {
     /*
      * To convert the InputStream to String we use the BufferedReader.readLine()
      * method. We iterate until the BufferedReader return null which means
@@ -188,7 +227,8 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
         String line = null;
         try {
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null ) {
+                line = reader.readLine();
                 sb.append(line + "\n");
             }
         } catch (IOException e) {
@@ -200,6 +240,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
                 e.printStackTrace();
             }
         }
+        Log.d("RESULTAAT",sb.toString());
         return sb.toString();
     }
 }
