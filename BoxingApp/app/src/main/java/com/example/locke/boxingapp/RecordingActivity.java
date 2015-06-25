@@ -97,6 +97,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
                     text1.setText("DONE!!!");
 
                     score = (float) ((Math.abs(x1) + Math.abs(y1))*-1 + Math.abs(z1) + 0.19);
+<<<<<<< HEAD
                     textScore.setText("Your score: " + score);
                     connectWeb("145.109.215.185/Tickets.php");
                     Log.d("CHECK","CHECK");
@@ -129,6 +130,15 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
                     thread.start();
 
+=======
+                    if(score < 1){
+                        textScore.setText("Your score: 1");
+                    }
+                    else
+                    {
+                        textScore.setText("Your score: " + score);
+                    }
+>>>>>>> origin/master
                 }
             }
         }.start();
