@@ -92,8 +92,13 @@ public class RecordingActivity extends Activity implements SensorEventListener {
                     text1.setText("DONE!!!");
 
                     score = (float) ((Math.abs(x1) + Math.abs(y1))*-1 + Math.abs(z1) + 0.19);
-                    textScore.setText("Your score: " + score);
-
+                    if(score < 1){
+                        textScore.setText("Your score: 1");
+                    }
+                    else
+                    {
+                        textScore.setText("Your score: " + score);
+                    }
                 }
             }
         }.start();
