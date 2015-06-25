@@ -1,5 +1,9 @@
 package com.example.locke.boxingapp;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
 
@@ -12,9 +16,16 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.locke.boxingapp.R;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 
 public class RecordingActivity extends Activity implements SensorEventListener {
@@ -29,6 +40,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
     boolean isReady = false;
     public TextView x, y, z,textScore;
     public float x1, y1, z1, score;
+
     CountDownTimer c;
 
     @Override
@@ -78,8 +90,10 @@ public class RecordingActivity extends Activity implements SensorEventListener {
                 }
                 else {
                     text1.setText("DONE!!!");
+
                     score = (float) ((Math.abs(x1) + Math.abs(y1))*-1 + Math.abs(z1) + 0.19);
                     textScore.setText("Your score: " + score);
+
                 }
             }
         }.start();
@@ -117,5 +131,75 @@ public class RecordingActivity extends Activity implements SensorEventListener {
         z.setText("Z:" + z1);
     }
 
+    public void calcPercentage(double x, double y, double z) {
+        double xPerc, yPerc, zPerc, total;
 
+        xPerc = (100/-0.09806824)*x;
+        yPerc = (100/-0.05883789)*y;
+        zPerc = (100/-9.728195)*z;
+
+        total = (xPerc + yPerc + zPerc) /3;
+        Log.d("PERC: " ,String.valueOf(total) + "?");
+
+    }
+
+    public static void connect(String url)
+    {
+
+        HttpClient httpclient = new DefaultHttpClient();
+
+        // Prepare a request object
+        HttpGet httpget = new HttpGet(url);
+
+        // Execute the request
+        HttpResponse response;
+        try {
+            response = httpclient.execute(httpget);
+            // Examine the response status
+            Log.i("Praeda",response.getStatusLine().toString());
+
+            // Get hold of the response entity
+            HttpEntity entity = response.getEntity();
+            // If the response does not enclose an entity, there is no need
+            // to worry about connection release
+
+            if (entity != null) {
+
+                // A Simple JSON Response Read
+                InputStream instream = entity.getContent();
+                String result= convertStreamToString(instream);
+                // now you have the string representation of the HTML request
+                instream.close();
+            }
+
+
+        } catch (Exception e) {}
+    }
+
+    private static String convertStreamToString(InputStream is) {
+    /*
+     * To convert the InputStream to String we use the BufferedReader.readLine()
+     * method. We iterate until the BufferedReader return null which means
+     * there's no more data to read. Each line will appended to a StringBuilder
+     * and returned as String.
+     */
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
 }
