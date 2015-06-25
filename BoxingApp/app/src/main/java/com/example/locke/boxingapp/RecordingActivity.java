@@ -27,9 +27,8 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
     private static final String FORMAT = "%02d:%02d:%02d";
     boolean isReady = false;
-    int seconds , minutes;
-    public TextView x, y, z;
-    public float x1, y1, z1;
+    public TextView x, y, z,textScore;
+    public float x1, y1, z1, score;
     CountDownTimer c;
 
     @Override
@@ -47,6 +46,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
         z = (TextView) findViewById(R.id.textView3);
 
         text1=(TextView)findViewById(R.id.textView1);
+        textScore=(TextView)findViewById(R.id.textView4);
 
 
 
@@ -55,7 +55,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
     public void start () {
 
-        c = new CountDownTimer(4000, 1000) { // adjust the milli seconds here
+        c = new CountDownTimer(3000, 1000) { // adjust the milli seconds here
 
             public void onTick(long millisUntilFinished) {
 
@@ -71,14 +71,15 @@ public class RecordingActivity extends Activity implements SensorEventListener {
             }
 
             public void onFinish() {
-                if (isReady ==false) {
+                if (!isReady) {
                     text1.setText("HIT!");
                     isReady=true;
                     hit();
                 }
                 else {
-
                     text1.setText("DONE!!!");
+                    score = (float) ((Math.abs(x1) + Math.abs(y1))*-1 + Math.abs(z1) + 0.19);
+                    textScore.setText("Your score: " + score);
                 }
             }
         }.start();
@@ -96,6 +97,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
             x1 = sensorEvent.values[0];
             y1 = sensorEvent.values[1];
             z1 = sensorEvent.values[2];
+
         }
     }
 
