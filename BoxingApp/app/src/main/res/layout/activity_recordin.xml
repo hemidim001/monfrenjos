@@ -8,13 +8,23 @@
         android:id="@+id/countdown"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="58dp"
         android:textColor="@color/blue"
         android:textSize="130sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
         android:text="Large Text"/>
+
+    <TextView
+        android:id="@+id/getReadyText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/blue"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:text=" "/>
 
     <TextView
         android:id="@+id/xValue"

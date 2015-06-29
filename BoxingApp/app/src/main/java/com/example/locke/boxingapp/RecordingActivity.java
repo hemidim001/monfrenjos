@@ -2,7 +2,6 @@ package com.example.locke.boxingapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -36,16 +35,12 @@ import java.util.concurrent.TimeUnit;
 
 public class RecordingActivity extends Activity implements SensorEventListener {
 
-
-	TextView countdown;
 	private Button repunchButton;
 
 	private SensorManager senSensorManager;
 	private Sensor senAccelerometer;
 
-	private static final String FORMAT = "%02d";
-	boolean isReady = false;
-	public TextView x, y, z, textScore;
+	public TextView x, y, z, textScore, countdown, getReady;
 	public float x1, y1, z1, score;
 	private String urlString = "http://192.168.43.235:8080/BOXINFG_APP/resources/user/users/1/";
 	CountDownTimer c;
@@ -68,6 +63,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 		countdown = (TextView) findViewById(R.id.countdown);
 		repunchButton = (Button) findViewById(R.id.restart_button);
 		textScore = (TextView) findViewById(R.id.textView4);
+		getReady = (TextView) findViewById(R.id.getReadyText);
 
 		//Set the listener for the restart button
 		repunchButton.setOnClickListener(rePunch);
@@ -80,19 +76,25 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 		//Hide the button for a rematch
 		repunchButton.setVisibility(View.GONE);
 
-		c = new CountDownTimer(6000, 1000) { // adjust the milli seconds here
+		c = new CountDownTimer(11000, 1000) { // adjust the milli seconds here
 
 			public void onTick(long millisUntilFinished) {
-
 				countdown.setText(Long.toString(millisUntilFinished / 1000));
-
-//				updateText();
+				if(millisUntilFinished < 4000){
+					getReady.setText("Get ready!");
+				}
+				if(millisUntilFinished < 3000){
+					getReady.setText("Set?");
+				}
+				if(millisUntilFinished < 2000){
+					getReady.setText(" ");
+				}
+				updateText();
 
 			}
 
 			public void onFinish() {
 					countdown.setText("HIT!");
-					isReady = true;
 
 					score = (float) ((Math.abs(x1) + Math.abs(y1)) * -1 + Math.abs(z1) + 0.19);
 					score = Math.round(score);
