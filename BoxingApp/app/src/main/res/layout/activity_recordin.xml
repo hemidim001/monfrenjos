@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,38 +18,45 @@
 
     <TextView
         android:id="@+id/xValue"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/countdown"
-        android:layout_centerHorizontal="true" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/yValue"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/xValue"
-        android:layout_centerHorizontal="true" />
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/zValue"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/yValue"
-        android:layout_alignLeft="@+id/yValue"
-        android:layout_alignStart="@+id/yValue" />
+        android:gravity="center_horizontal" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Try again"
+        android:id="@+id/restart_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/zValue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="123dp"/>
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:textSize="20sp"/>
 
-</RelativeLayout>
+
+
+</LinearLayout>

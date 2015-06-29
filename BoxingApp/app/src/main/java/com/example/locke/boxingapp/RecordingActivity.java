@@ -10,6 +10,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -36,6 +38,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 
 
 	TextView countdown;
+	private Button repunchButton;
 
 	private SensorManager senSensorManager;
 	private Sensor senAccelerometer;
@@ -63,13 +66,19 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 		z = (TextView) findViewById(R.id.zValue);
 
 		countdown = (TextView) findViewById(R.id.countdown);
-
+		repunchButton = (Button) findViewById(R.id.restart_button);
 		textScore = (TextView) findViewById(R.id.textView4);
+
+		//Set the listener for the restart button
+		repunchButton.setOnClickListener(rePunch);
 
 		start();
 	}
 
 	public void start() {
+
+		//Hide the button for a rematch
+		repunchButton.setVisibility(View.GONE);
 
 		c = new CountDownTimer(6000, 1000) { // adjust the milli seconds here
 
@@ -89,6 +98,9 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 					score = Math.round(score);
 					i = (int) score;
 					textScore.setText("Uw score is: " + i);
+
+					//Hide the button for a rematch
+					repunchButton.setVisibility(View.VISIBLE);
 
 					Thread thread = new Thread(new Runnable() {
 						@Override
@@ -138,8 +150,13 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 		z.setText("Z:" + z1);
 	}
 
-
-
+	//Listener for the repunch button
+	Button.OnClickListener rePunch = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			start();
+		}
+	};
 
     public void calcPercentage(double x, double y, double z) {
         double xPerc, yPerc, zPerc, total;
