@@ -5,49 +5,50 @@
     android:id="@+id/zs">
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:id="@+id/countdown"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="34dp"
         android:layout_marginTop="58dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="@color/blue"
+        android:textSize="130sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:text="Large Text"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/xValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/countdown"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/yValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/xValue"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/zValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_below="@+id/yValue"
+        android:layout_alignLeft="@+id/yValue"
+        android:layout_alignStart="@+id/yValue" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/textView4"
-        android:layout_below="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zValue"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="123dp"/>
 

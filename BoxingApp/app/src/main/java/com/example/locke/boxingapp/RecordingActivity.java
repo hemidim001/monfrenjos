@@ -2,6 +2,7 @@ package com.example.locke.boxingapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -34,12 +35,12 @@ import java.util.concurrent.TimeUnit;
 public class RecordingActivity extends Activity implements SensorEventListener {
 
 
-	TextView text1;
+	TextView countdown;
 
 	private SensorManager senSensorManager;
 	private Sensor senAccelerometer;
 
-	private static final String FORMAT = "%02d:%02d:%02d";
+	private static final String FORMAT = "%02d";
 	boolean isReady = false;
 	public TextView x, y, z, textScore;
 	public float x1, y1, z1, score;
@@ -57,45 +58,37 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 		senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-		x = (TextView) findViewById(R.id.textView);
-		y = (TextView) findViewById(R.id.textView2);
-		z = (TextView) findViewById(R.id.textView3);
+		x = (TextView) findViewById(R.id.xValue);
+		y = (TextView) findViewById(R.id.yValue);
+		z = (TextView) findViewById(R.id.zValue);
 
-		text1 = (TextView) findViewById(R.id.textView1);
+		countdown = (TextView) findViewById(R.id.countdown);
+
 		textScore = (TextView) findViewById(R.id.textView4);
-
 
 		start();
 	}
 
 	public void start() {
 
-		c = new CountDownTimer(3000, 1000) { // adjust the milli seconds here
+		c = new CountDownTimer(6000, 1000) { // adjust the milli seconds here
 
 			public void onTick(long millisUntilFinished) {
 
-				text1.setText("" + String.format(FORMAT,
-						TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-						TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-								TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-						TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-								TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+				countdown.setText(Long.toString(millisUntilFinished / 1000));
 
-				updateText();
+//				updateText();
 
 			}
 
 			public void onFinish() {
-				if (!isReady) {
-					text1.setText("HIT!");
+					countdown.setText("HIT!");
 					isReady = true;
-					hit();
-				} else {
 
 					score = (float) ((Math.abs(x1) + Math.abs(y1)) * -1 + Math.abs(z1) + 0.19);
 					score = Math.round(score);
 					i = (int) score;
-					text1.setText("Uw score is: " + i);
+					textScore.setText("Uw score is: " + i);
 
 					Thread thread = new Thread(new Runnable() {
 						@Override
@@ -114,12 +107,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 					});
 					thread.start();
 				}
-			}
 		}.start();
-	}
-
-	public void hit() {
-		c.start();
 	}
 
 	@Override
