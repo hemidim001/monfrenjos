@@ -8,11 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    Button startButton;
+    private TextView startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void init() {
-        startButton = (Button)findViewById(R.id.start_button);
+        startButton = (TextView)findViewById(R.id.start_button);
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RecordingActivity.class);
