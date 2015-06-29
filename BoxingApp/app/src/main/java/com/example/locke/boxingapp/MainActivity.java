@@ -13,6 +13,7 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity {
 
     Button startButton;
+    Button highscoretButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,13 @@ public class MainActivity extends ActionBarActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RecordingActivity.class);
+                startActivity(intent);
+            }
+        });
+        highscoretButton = (Button)findViewById(R.id.highscore);
+        highscoretButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
                 startActivity(intent);
             }
         });
