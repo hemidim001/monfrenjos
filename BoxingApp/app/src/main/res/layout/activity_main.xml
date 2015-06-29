@@ -14,23 +14,6 @@
             android:paddingRight="20dp"
             android:paddingLeft="20dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="START"
-        android:id="@+id/start_button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="161dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="highscores"
-        android:id="@+id/highscore"
-        android:layout_below="@+id/start_button"
-        android:layout_centerHorizontal="true"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,5 +21,13 @@
             android:id="@+id/start_button"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="highscores"
+            android:id="@+id/highscore"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"/>
 
 </LinearLayout>

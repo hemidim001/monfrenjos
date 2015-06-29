@@ -8,15 +8,26 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.widget.TextView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -140,112 +151,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 	}
 
 
-<<<<<<< HEAD
-      start();
-    }
 
-    public void start () {
-
-        c = new CountDownTimer(3000, 1000) { // adjust the milli seconds here
-
-            public void onTick(long millisUntilFinished) {
-
-                text1.setText(""+String.format(FORMAT,
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
-                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-
-                updateText();
-
-            }
-
-            public void onFinish() {
-                if (!isReady) {
-                    text1.setText("HIT!");
-                    isReady=true;
-                    hit();
-                }
-                else {
-                    text1.setText("DONE!!!");
-
-                    score = (float) ((Math.abs(x1) + Math.abs(y1))*-1 + Math.abs(z1) + 0.19);
-                    textScore.setText("Your score: " + score);
-                    connectWeb("145.109.215.185/Tickets.php");
-                    Log.d("CHECK","CHECK");
-                    Thread thread = new Thread(new Runnable(){
-                        @Override
-                        public void run() {
-                            try {
-                                InputStream is = null;
-                                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                                nameValuePairs.add(new BasicNameValuePair("getAllTickets", "3"));
-
-                                try {
-                                    HttpClient httpclient = new DefaultHttpClient();
-                                    HttpPost httppost = new HttpPost("http://145.109.215.185/Tickets.php");
-                                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                                    HttpResponse response = httpclient.execute(httppost);
-                                    HttpEntity entity = response.getEntity();
-                                    is = entity.getContent();
-                                    Log.d("HTTP", "HTTP: OK: " + response.toString());
-                                    convertStreamToString(is);
-
-                                } catch (Exception e) {
-                                    Log.e("HTTP", "Error in http connection " + e.toString());
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-                    thread.start();
-
-                    if(score < 1){
-                        textScore.setText("Your score: 1");
-                    }
-                    else
-                    {
-                        textScore.setText("Your score: " + score);
-                    }
-                }
-            }
-        }.start();
-    }
-
-    public void hit () {
-            c.start();
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        Sensor mySensor = sensorEvent.sensor;
-
-        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            x1 = sensorEvent.values[0];
-            y1 = sensorEvent.values[1];
-            z1 = sensorEvent.values[2];
-
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
-    protected void onResume() {
-        super.onResume();
-        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    public void updateText() {
-        x.setText("X:" + x1);
-        y.setText("Y:" + y1);
-        z.setText("Z:" + z1);
-    }
 
     public void calcPercentage(double x, double y, double z) {
         double xPerc, yPerc, zPerc, total;
@@ -321,9 +227,8 @@ public class RecordingActivity extends Activity implements SensorEventListener {
                 e.printStackTrace();
             }
         }
-        Log.d("RESULTAAT",sb.toString());
+        Log.d("RESULTAAT", sb.toString());
         return sb.toString();
     }
-=======
->>>>>>> 574cd91fe2fcb43484345388935605b8373c82c4
+
 }
