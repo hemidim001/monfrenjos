@@ -96,7 +96,7 @@ public class RecordingActivity extends Activity implements SensorEventListener {
 			public void onFinish() {
 					countdown.setText("HIT!");
 
-					score = (float) ((Math.abs(x1) + Math.abs(y1)) * -1 + Math.abs(z1) + 0.19);
+					score = (float) (((Math.abs(x1) + Math.abs(y1)) * -1 + Math.abs(z1) + 1.9)*10);
 					score = Math.round(score);
 					i = (int) score;
 					textScore.setText("Uw score is: " + i);
